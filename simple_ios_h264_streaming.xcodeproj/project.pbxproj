@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA721E42235886CD0034723B /* AudioFrameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA721E41235886CD0034723B /* AudioFrameHandler.swift */; };
 		BA726A2A23577FC50089272A /* senderwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA726A2523577FC50089272A /* senderwrapper.cpp */; };
 		BA726A2B23577FC50089272A /* udpclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA726A2623577FC50089272A /* udpclient.cpp */; };
 		BA726A2C23577FC50089272A /* udpsocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA726A2723577FC50089272A /* udpsocket.cpp */; };
@@ -16,12 +17,13 @@
 		BAFBBA09235776FB00BDC8DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAFBBA07235776FB00BDC8DC /* Main.storyboard */; };
 		BAFBBA0B235776FD00BDC8DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAFBBA0A235776FD00BDC8DC /* Assets.xcassets */; };
 		BAFBBA0E235776FD00BDC8DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAFBBA0C235776FD00BDC8DC /* LaunchScreen.storyboard */; };
-		BAFBBA1A23577ECF00BDC8DC /* CameraDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA1723577ECF00BDC8DC /* CameraDetector.swift */; };
-		BAFBBA1B23577ECF00BDC8DC /* CameraFrameExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA1823577ECF00BDC8DC /* CameraFrameExtractor.swift */; };
-		BAFBBA1C23577ECF00BDC8DC /* CameraFrameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA1923577ECF00BDC8DC /* CameraFrameHandler.swift */; };
+		BAFBBA1A23577ECF00BDC8DC /* DeviceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA1723577ECF00BDC8DC /* DeviceDetector.swift */; };
+		BAFBBA1B23577ECF00BDC8DC /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA1823577ECF00BDC8DC /* CaptureSession.swift */; };
+		BAFBBA1C23577ECF00BDC8DC /* VideoFrameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA1923577ECF00BDC8DC /* VideoFrameHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BA721E41235886CD0034723B /* AudioFrameHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFrameHandler.swift; sourceTree = "<group>"; };
 		BA726A2123577FC50089272A /* context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = context.h; sourceTree = "<group>"; };
 		BA726A2223577FC50089272A /* senderwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = senderwrapper.h; sourceTree = "<group>"; };
 		BA726A2423577FC50089272A /* udpsocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udpsocket.h; sourceTree = "<group>"; };
@@ -39,9 +41,9 @@
 		BAFBBA0A235776FD00BDC8DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BAFBBA0D235776FD00BDC8DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BAFBBA0F235776FD00BDC8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BAFBBA1723577ECF00BDC8DC /* CameraDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraDetector.swift; sourceTree = "<group>"; };
-		BAFBBA1823577ECF00BDC8DC /* CameraFrameExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraFrameExtractor.swift; sourceTree = "<group>"; };
-		BAFBBA1923577ECF00BDC8DC /* CameraFrameHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraFrameHandler.swift; sourceTree = "<group>"; };
+		BAFBBA1723577ECF00BDC8DC /* DeviceDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceDetector.swift; sourceTree = "<group>"; };
+		BAFBBA1823577ECF00BDC8DC /* CaptureSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
+		BAFBBA1923577ECF00BDC8DC /* VideoFrameHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,9 +116,10 @@
 			isa = PBXGroup;
 			children = (
 				BA726A1E23577F8F0089272A /* net */,
-				BAFBBA1723577ECF00BDC8DC /* CameraDetector.swift */,
-				BAFBBA1823577ECF00BDC8DC /* CameraFrameExtractor.swift */,
-				BAFBBA1923577ECF00BDC8DC /* CameraFrameHandler.swift */,
+				BAFBBA1723577ECF00BDC8DC /* DeviceDetector.swift */,
+				BAFBBA1823577ECF00BDC8DC /* CaptureSession.swift */,
+				BAFBBA1923577ECF00BDC8DC /* VideoFrameHandler.swift */,
+				BA721E41235886CD0034723B /* AudioFrameHandler.swift */,
 				BAFBBA01235776FB00BDC8DC /* AppDelegate.swift */,
 				BAFBBA03235776FB00BDC8DC /* SceneDelegate.swift */,
 				BAFBBA05235776FB00BDC8DC /* ViewController.swift */,
@@ -200,11 +203,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAFBBA1B23577ECF00BDC8DC /* CameraFrameExtractor.swift in Sources */,
+				BAFBBA1B23577ECF00BDC8DC /* CaptureSession.swift in Sources */,
 				BAFBBA06235776FB00BDC8DC /* ViewController.swift in Sources */,
 				BAFBBA02235776FB00BDC8DC /* AppDelegate.swift in Sources */,
-				BAFBBA1C23577ECF00BDC8DC /* CameraFrameHandler.swift in Sources */,
-				BAFBBA1A23577ECF00BDC8DC /* CameraDetector.swift in Sources */,
+				BAFBBA1C23577ECF00BDC8DC /* VideoFrameHandler.swift in Sources */,
+				BA721E42235886CD0034723B /* AudioFrameHandler.swift in Sources */,
+				BAFBBA1A23577ECF00BDC8DC /* DeviceDetector.swift in Sources */,
 				BAFBBA04235776FB00BDC8DC /* SceneDelegate.swift in Sources */,
 				BA726A2C23577FC50089272A /* udpsocket.cpp in Sources */,
 				BA726A2B23577FC50089272A /* udpclient.cpp in Sources */,

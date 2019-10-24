@@ -2,8 +2,8 @@
 //  simple_ios_h264_streaming-Bridging-Header.h
 //  simple_ios_h264_streaming
 //
-//  Created by Develop on 16/10/2019.
-//  Copyright © 2019 Develop. All rights reserved.
+//  Created by valazin on 16/10/2019.
+//  Copyright © 2019 valazin. All rights reserved.
 //
 
 #ifndef simple_ios_h264_streaming_Bridging_Header_h

@@ -1,5 +1,5 @@
 //
-//  CameraFrameHandler.swift
+//  VideoFrameHandler.swift
 //  simple_ios_h264_streaming
 //
 //  Created by valazin on 13/10/2019.
@@ -106,7 +106,7 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         frameInfo.streamType = VideoStream
         
 //        print("pts=\(frameInfo.pts), dts=\(frameInfo.dts), length=\(inputDataLength), isKeyFrame=\(isKeyFrame)")
-        
+        print("video pts=\(frameInfo.pts)")
         sender_send_frame(OpaquePointer(outputCallbackRefCon),
                           "77b207b2-f6da-460b-9ae7-b0a6c5d2020f",
                           outputData,
@@ -153,6 +153,7 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
                                                            nalUnitHeaderLengthOut: nil)
         
         var res = 0
+        // TODO: must start from 1?
         for index in 0...parametersNumber {
             var size: Int = 0
             CMVideoFormatDescriptionGetH264ParameterSetAtIndex(description,

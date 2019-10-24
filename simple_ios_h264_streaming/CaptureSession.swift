@@ -24,7 +24,7 @@ class CaptureSession {
         // prepare video input
         do {
             let videoInput = try AVCaptureDeviceInput(device: camera)
-            
+
             if _captureSession.canAddInput(videoInput) {
                 print("Success add video Input")
                 _captureSession.addInput(videoInput)
@@ -36,11 +36,11 @@ class CaptureSession {
             print("Couldn't init AVCaptureDeviceInput with camera: \(error)")
             return false
         }
-        
+
         // prepare video output
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.setSampleBufferDelegate(videoFrameHandler, queue: DispatchQueue(label: "video frame handler queue"))
-        
+
         if _captureSession.canAddOutput(videoOutput) {
             print("Success add video Output")
             _captureSession.addOutput(videoOutput)
