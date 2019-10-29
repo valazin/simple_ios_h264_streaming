@@ -24,8 +24,8 @@ class ViewController: UIViewController {
         }
 
         let dimensions = CMVideoFormatDescriptionGetDimensions(camera.activeFormat.formatDescription)
-        let resolution = CGSize(width:  CGFloat(dimensions.width)/1,
-                                height: CGFloat(dimensions.height)/1)
+        let resolution = CGSize(width:  CGFloat(dimensions.width),
+                                height: CGFloat(dimensions.height))
         
         print("Found camera with position=\(camera.position.rawValue), type=\(camera.deviceType), resolution=\(resolution)")
         
@@ -33,13 +33,13 @@ class ViewController: UIViewController {
             return print("Not found any microphones")
         }
         
-        guard let sender: OpaquePointer = sender_create("10.110.3.43", 4444, 5) else {
-            return print("Couldn't create sender")
-        }
-        
-//        guard let sender: OpaquePointer = sender_create("videos-p2p-storage.dev.avalab.io", 4444, 5) else {
+//        guard let sender: OpaquePointer = sender_create("10.110.3.43", 4444, 5) else {
 //            return print("Couldn't create sender")
 //        }
+        
+        guard let sender: OpaquePointer = sender_create("videos-p2p-storage.dev.avalab.io", 4444, 5) else {
+            return print("Couldn't create sender")
+        }
         
 //        guard let sender: OpaquePointer = sender_create("192.168.88.253", 4444, 5) else {
 //            return print("Couldn't create sender")
@@ -51,15 +51,15 @@ class ViewController: UIViewController {
         videoContext.timebase.den = 1000
         videoContext.timebase.num = 1
         
-        // TODO: init with appropriate data
         var audioContext = AudioContext()
+        // TODO: get channels count from device
         audioContext.channelsCount = 1
+        // TODO: get sample rate from device
         audioContext.sampleRate = 44100
         audioContext.timebase.den = 1000
         audioContext.timebase.num = 1
         
-        let isConnected = sender_connect(sender,
-                                         "77b207b2-f6da-460b-9ae7-b0a6c5d2020f",
+        let isConnected = sender_connect(sender,"72f71686-0381-4667-aa28-8ec749b58105",
                                          videoContext,
                                          audioContext,
                                          3)

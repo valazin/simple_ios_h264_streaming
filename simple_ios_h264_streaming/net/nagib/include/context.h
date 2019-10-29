@@ -25,18 +25,12 @@ typedef struct AudioContext
     int channelsCount;
 } AudioContext;
 
-enum StreamType
-{
-    VideoStream = 0,
-    AudioStream = 1
-};
-
 typedef struct FrameContext
 {
-    int isKeyFrame;
+    char isKeyFrame;
     long pts;
     long dts;
-    enum StreamType streamType;
+    char isVideoFrame;
 } FrameContext;
 
 #ifdef __cplusplus

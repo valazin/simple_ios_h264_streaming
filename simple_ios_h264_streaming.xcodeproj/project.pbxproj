@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		BA721E42235886CD0034723B /* AudioFrameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA721E41235886CD0034723B /* AudioFrameHandler.swift */; };
-		BA726A2A23577FC50089272A /* senderwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA726A2523577FC50089272A /* senderwrapper.cpp */; };
-		BA726A2B23577FC50089272A /* udpclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA726A2623577FC50089272A /* udpclient.cpp */; };
-		BA726A2C23577FC50089272A /* udpsocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA726A2723577FC50089272A /* udpsocket.cpp */; };
+		BA79E45B236835ED008170C7 /* udpsocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA79E454236835ED008170C7 /* udpsocket.cpp */; };
+		BA79E45C236835ED008170C7 /* senderwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA79E456236835ED008170C7 /* senderwrapper.cpp */; };
+		BA79E45D236835ED008170C7 /* udpclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA79E459236835ED008170C7 /* udpclient.cpp */; };
 		BAFBBA02235776FB00BDC8DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA01235776FB00BDC8DC /* AppDelegate.swift */; };
 		BAFBBA04235776FB00BDC8DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA03235776FB00BDC8DC /* SceneDelegate.swift */; };
 		BAFBBA06235776FB00BDC8DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA05235776FB00BDC8DC /* ViewController.swift */; };
@@ -26,13 +26,14 @@
 		BA721E41235886CD0034723B /* AudioFrameHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFrameHandler.swift; sourceTree = "<group>"; };
 		BA726A2123577FC50089272A /* context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = context.h; sourceTree = "<group>"; };
 		BA726A2223577FC50089272A /* senderwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = senderwrapper.h; sourceTree = "<group>"; };
-		BA726A2423577FC50089272A /* udpsocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udpsocket.h; sourceTree = "<group>"; };
-		BA726A2523577FC50089272A /* senderwrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = senderwrapper.cpp; sourceTree = "<group>"; };
-		BA726A2623577FC50089272A /* udpclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = udpclient.cpp; sourceTree = "<group>"; };
-		BA726A2723577FC50089272A /* udpsocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = udpsocket.cpp; sourceTree = "<group>"; };
-		BA726A2823577FC50089272A /* udpclient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udpclient.h; sourceTree = "<group>"; };
-		BA726A2923577FC50089272A /* udpstructures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udpstructures.h; sourceTree = "<group>"; };
 		BA726A32235781960089272A /* simple_ios_h264_streaming-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "simple_ios_h264_streaming-Bridging-Header.h"; sourceTree = "<group>"; };
+		BA79E454236835ED008170C7 /* udpsocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = udpsocket.cpp; sourceTree = "<group>"; };
+		BA79E455236835ED008170C7 /* udpclient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udpclient.h; sourceTree = "<group>"; };
+		BA79E456236835ED008170C7 /* senderwrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = senderwrapper.cpp; sourceTree = "<group>"; };
+		BA79E457236835ED008170C7 /* udpstructures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udpstructures.h; sourceTree = "<group>"; };
+		BA79E458236835ED008170C7 /* udpsocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udpsocket.h; sourceTree = "<group>"; };
+		BA79E459236835ED008170C7 /* udpclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = udpclient.cpp; sourceTree = "<group>"; };
+		BA79E45A236835ED008170C7 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		BAFBB9FE235776FB00BDC8DC /* simple_ios_h264_streaming.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = simple_ios_h264_streaming.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAFBBA01235776FB00BDC8DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BAFBBA03235776FB00BDC8DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +70,13 @@
 			isa = PBXGroup;
 			children = (
 				BA726A2023577FC50089272A /* include */,
-				BA726A2323577FC50089272A /* src */,
+				BA79E45A236835ED008170C7 /* logging.h */,
+				BA79E456236835ED008170C7 /* senderwrapper.cpp */,
+				BA79E459236835ED008170C7 /* udpclient.cpp */,
+				BA79E455236835ED008170C7 /* udpclient.h */,
+				BA79E454236835ED008170C7 /* udpsocket.cpp */,
+				BA79E458236835ED008170C7 /* udpsocket.h */,
+				BA79E457236835ED008170C7 /* udpstructures.h */,
 			);
 			path = nagib;
 			sourceTree = "<group>";
@@ -81,19 +88,6 @@
 				BA726A2223577FC50089272A /* senderwrapper.h */,
 			);
 			path = include;
-			sourceTree = "<group>";
-		};
-		BA726A2323577FC50089272A /* src */ = {
-			isa = PBXGroup;
-			children = (
-				BA726A2423577FC50089272A /* udpsocket.h */,
-				BA726A2523577FC50089272A /* senderwrapper.cpp */,
-				BA726A2623577FC50089272A /* udpclient.cpp */,
-				BA726A2723577FC50089272A /* udpsocket.cpp */,
-				BA726A2823577FC50089272A /* udpclient.h */,
-				BA726A2923577FC50089272A /* udpstructures.h */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		BAFBB9F5235776FB00BDC8DC = {
@@ -203,16 +197,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA79E45B236835ED008170C7 /* udpsocket.cpp in Sources */,
 				BAFBBA1B23577ECF00BDC8DC /* CaptureSession.swift in Sources */,
+				BA79E45D236835ED008170C7 /* udpclient.cpp in Sources */,
 				BAFBBA06235776FB00BDC8DC /* ViewController.swift in Sources */,
 				BAFBBA02235776FB00BDC8DC /* AppDelegate.swift in Sources */,
+				BA79E45C236835ED008170C7 /* senderwrapper.cpp in Sources */,
 				BAFBBA1C23577ECF00BDC8DC /* VideoFrameHandler.swift in Sources */,
 				BA721E42235886CD0034723B /* AudioFrameHandler.swift in Sources */,
 				BAFBBA1A23577ECF00BDC8DC /* DeviceDetector.swift in Sources */,
 				BAFBBA04235776FB00BDC8DC /* SceneDelegate.swift in Sources */,
-				BA726A2C23577FC50089272A /* udpsocket.cpp in Sources */,
-				BA726A2B23577FC50089272A /* udpclient.cpp in Sources */,
-				BA726A2A23577FC50089272A /* senderwrapper.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +351,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VP8798V8PU;
 				INFOPLIST_FILE = simple_ios_h264_streaming/Info.plist;
@@ -366,6 +361,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "avalab.simple-ios-h264-streaming";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "simple_ios_h264_streaming/simple_ios_h264_streaming-Bridging-Header.h";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_VERSION = 5.0;
@@ -378,6 +374,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VP8798V8PU;
 				INFOPLIST_FILE = simple_ios_h264_streaming/Info.plist;
@@ -387,6 +384,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "avalab.simple-ios-h264-streaming";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "simple_ios_h264_streaming/simple_ios_h264_streaming-Bridging-Header.h";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_VERSION = 5.0;

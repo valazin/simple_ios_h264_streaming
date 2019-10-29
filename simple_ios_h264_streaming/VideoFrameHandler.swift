@@ -56,7 +56,7 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         infoFlags: VTEncodeInfoFlags,
         sampleBuffer: CMSampleBuffer?) in
         
-        // TODO: check input parameters
+        // TODO: check status
         
         guard let sampleBuffer = sampleBuffer else {
             return print("sampleBuffer is null")
@@ -102,13 +102,10 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         var frameInfo = FrameContext()
         frameInfo.dts = Int(Float(sampleBuffer.decodeTimeStamp.value * 1000) / Float(sampleBuffer.decodeTimeStamp.timescale))
         frameInfo.pts = Int(Float(sampleBuffer.presentationTimeStamp.value * 1000) / Float(sampleBuffer.presentationTimeStamp.timescale))
-        frameInfo.isKeyFrame = Int32(isKeyFrame)
-        frameInfo.streamType = VideoStream
+        frameInfo.isKeyFrame = isKeyFrame > 0 ? 1 : 0
+        frameInfo.isVideoFrame = 1;
         
-//        print("pts=\(frameInfo.pts), dts=\(frameInfo.dts), length=\(inputDataLength), isKeyFrame=\(isKeyFrame)")
-        print("video pts=\(frameInfo.pts)")
         sender_send_frame(OpaquePointer(outputCallbackRefCon),
-                          "77b207b2-f6da-460b-9ae7-b0a6c5d2020f",
                           outputData,
                           outputDataLength,
                           frameInfo)

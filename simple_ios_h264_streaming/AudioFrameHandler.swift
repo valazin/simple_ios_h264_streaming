@@ -20,7 +20,16 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         if _converter == nil {
-            _converter = AudioFrameHandler.newConverter(sampleBuffer: sampleBuffer)
+            guard let inFormatDescription = sampleBuffer.formatDescription else {
+                return
+            }
+            guard var inBasicStreamDescription = CMAudioFormatDescriptionGetStreamBasicDescription(inFormatDescription)?.pointee else {
+                return
+            }
+            
+            _inSampleRate = inBasicStreamDescription.mSampleRate
+            _inChannelsCount = inBasicStreamDescription.mChannelsPerFrame
+            _converter = AudioFrameHandler.newConverter(inBasicStreamDescription: inBasicStreamDescription)
         }
         
         guard let converter = _converter else {
@@ -29,8 +38,6 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
         
         // Save input data to _inBufferList
         // We use _inBufferList later in _inputDataProc
-        print("before get audio buffer list: inBufferListSize=\(_inBufferListSize)")
-        print("before get audio buffer list: mDataByteSize=\(_inBufferList[0].mDataByteSize)")
         var blockBuffer: CMBlockBuffer?
         var res = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer,
                                                                           bufferListSizeNeededOut: nil,
@@ -40,7 +47,6 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
                                                                           blockBufferMemoryAllocator: kCFAllocatorDefault,
                                                                           flags: 0,
                                                                           blockBufferOut: &blockBuffer)
-        print("after get audio buffer list: input mDataByteSize=\(_inBufferList[0].mDataByteSize)")
         if res != 0 || blockBuffer == nil {
             return print("CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned with res=\(res)")
         }
@@ -58,15 +64,13 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
         }
         let outBufferList = AudioBufferList.allocate(maximumBuffers: Int(outPacketsNumber))
         for i in 0..<Int(outPacketsNumber) {
-            print("before convert: mDataByteSize=\(outPacketSize) for \(i) packet")
-            // TODO: use var to channels number
-            outBufferList[i].mNumberChannels = 1
+            outBufferList[i].mNumberChannels = _inChannelsCount
             outBufferList[i].mDataByteSize = outPacketSize
             outBufferList[i].mData = UnsafeMutableRawPointer.allocate(byteCount: Int(outPacketSize), alignment: 0)
         }
         
         // Converting.
-        // This method will block thread and call _inputDataProc
+        // This method blocks thread and call _inputDataProc.
         res = AudioConverterFillComplexBuffer(converter,
                                               self._inputDataProc,
                                               Unmanaged.passUnretained(self).toOpaque(),
@@ -85,44 +89,22 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
         var frameInfo = FrameContext()
         frameInfo.pts = Int(Float(sampleBuffer.presentationTimeStamp.value * 1000) / Float(sampleBuffer.presentationTimeStamp.timescale))
         frameInfo.dts = frameInfo.pts
-        frameInfo.isKeyFrame = Int32(0)
-        frameInfo.streamType = AudioStream
+        frameInfo.isKeyFrame = 0
+        frameInfo.isVideoFrame = 0
         for i in 0..<Int(outPacketsNumber) {
             let aacDataSize = outBufferList[i].mDataByteSize
             guard let aacData = outBufferList[i].mData else {
                 continue
             }
             
-            print("after convert: mDataByteSize=\(aacDataSize) for \(i) packet")
-            print("audio pts=\(frameInfo.pts)")
-            
-            let profile = 2
-            let freqIdx = 4
-            let channelsConfig = 1
-            
-            let adtsDataSize = Int(aacDataSize) + 7
-            let adtsData = UnsafeMutablePointer<UInt8>.allocate(capacity: adtsDataSize)
-            memset(adtsData, 0, adtsDataSize)
-            adtsData[0] = 0xFF
-            adtsData[1] = 0xF9
-            adtsData[2] = UInt8((1<<6) + (freqIdx<<2) + (channelsConfig>>2))
-            adtsData[3] = UInt8(((channelsConfig&3) << 6) + (adtsDataSize >> 11))
-            adtsData[4] = UInt8((adtsDataSize & 0x7FF) >> 3)
-            adtsData[5] = UInt8(((adtsDataSize & 7) << 5) + 0x1F)
-            adtsData[6] = 0xFC
-            
-            memcpy(adtsData + 7, aacData, Int(aacDataSize))
-            free(aacData)
-            
             sender_send_frame(_sender,
-                              "77b207b2-f6da-460b-9ae7-b0a6c5d2020f",
-                              UnsafeMutablePointer<Int8>(OpaquePointer(adtsData)),
-                              adtsDataSize,
+                              UnsafeMutablePointer<Int8>(OpaquePointer(aacData)),
+                              Int(aacDataSize),
                               frameInfo)
         }
     }
     
-        
+    // This delegate is called by AudioToolbox. See AudioConverterFillComplexBuffer
     private let _inputDataProc: AudioConverterComplexInputDataProc = {(
         converter: AudioConverterRef,
         ioNumberDataPackets: UnsafeMutablePointer<UInt32>,
@@ -130,7 +112,6 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
         outDataPacketDescription: UnsafeMutablePointer<UnsafeMutablePointer<AudioStreamPacketDescription>?>?,
         inUserData: UnsafeMutableRawPointer?) -> OSStatus in
         
-        // TODO: check
         let this = Unmanaged<AudioFrameHandler>.fromOpaque(inUserData!).takeUnretainedValue()
         memcpy(ioData, this._inBufferList.unsafePointer, this._inBufferListSize)
         ioNumberDataPackets.pointee = 1
@@ -139,14 +120,7 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
     }
     
     
-    private static func newConverter(sampleBuffer: CMSampleBuffer) -> AudioConverterRef? {
-        guard let inFormatDescription = sampleBuffer.formatDescription else {
-            return nil
-        }
-        guard var inBasicStreamDescription = CMAudioFormatDescriptionGetStreamBasicDescription(inFormatDescription)?.pointee else {
-            return nil
-        }
-        
+    private static func newConverter(inBasicStreamDescription: AudioStreamBasicDescription) -> AudioConverterRef? {
         var outAudioClassDescription = [AudioClassDescription]()
         for _ in 1...inBasicStreamDescription.mChannelsPerFrame {
             outAudioClassDescription.append(AudioClassDescription(mType: kAudioEncoderComponentType,
@@ -169,7 +143,8 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
         AudioFormatGetProperty(kAudioFormatProperty_FormatInfo, 0, nil, &size, &outBasicStreamDescription)
         
         var res: AudioConverterRef?
-        AudioConverterNewSpecific(&inBasicStreamDescription,
+        var copyInBasicStreamDescription = inBasicStreamDescription
+        AudioConverterNewSpecific(&copyInBasicStreamDescription,
                                   &outBasicStreamDescription,
                                   UInt32(outAudioClassDescription.count),
                                   &outAudioClassDescription,
@@ -177,11 +152,34 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
         return res
     }
     
+    // TODO: 
+    private static func createAdtsHeader()
+    {
+//        let profile = 2
+//        let freqIdx = 4
+//        let channelsConfig = 1
+//
+//        let adtsDataSize = Int(aacDataSize) + 7
+//        let adtsData = UnsafeMutablePointer<UInt8>.allocate(capacity: adtsDataSize)
+//        memset(adtsData, 0, adtsDataSize)
+//        adtsData[0] = 0xFF
+//        adtsData[1] = 0xF9
+//        adtsData[2] = UInt8((1<<6) + (freqIdx<<2) + (channelsConfig>>2))
+//        adtsData[3] = UInt8(((channelsConfig&3) << 6) + (adtsDataSize >> 11))
+//        adtsData[4] = UInt8((adtsDataSize & 0x7FF) >> 3)
+//        adtsData[5] = UInt8(((adtsDataSize & 7) << 5) + 0x1F)
+//        adtsData[6] = 0xFC
+//
+//        memcpy(adtsData + 7, aacData, Int(aacDataSize))
+//        free(aacData)
+    }
+    
     private var _sender: OpaquePointer
     private var _converter: AudioConverterRef?
+    
+    private var _inChannelsCount: UInt32 = 0
+    private var _inSampleRate: Float64 = 0
+    
     private let _inBufferListSize = AudioBufferList.sizeInBytes(maximumBuffers: 1)
     private var _inBufferList = AudioBufferList.allocate(maximumBuffers: 1)
-    
-//    static let aac: UInt8 = 10 << 4 | 3 << 2 | 1 << 1 | 1
-    
 }
