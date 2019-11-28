@@ -12,11 +12,24 @@ import AVFoundation
 
 class ViewController: UIViewController {
     
+    @IBAction func onClicked(_ sender: Any) {
+        if (_currentEncoderId == 0) {
+            _currentEncoderId = 1
+        } else {
+            _currentEncoderId = 0
+        }
+        print("change encoder to \(_currentEncoderId)")
+        _videoFrameHandler?.changeEncoder(id: _currentEncoderId)
+    }
+    
     private let _captureSession = CaptureSession()
     private var _videoFrameHandler: VideoFrameHandler? = nil
     private var _audioFrameHandler: AudioFrameHandler? = nil
+    private var _currentEncoderId = 0
 
     override func viewDidLoad() {
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         super.viewDidLoad()
                 
         guard let camera = DeviceDetector.DetectCamera() else {
@@ -24,8 +37,8 @@ class ViewController: UIViewController {
         }
 
         let dimensions = CMVideoFormatDescriptionGetDimensions(camera.activeFormat.formatDescription)
-        let resolution = CGSize(width:  CGFloat(dimensions.width),
-                                height: CGFloat(dimensions.height))
+        let resolution = CGSize(width:  CGFloat(1280),
+                                height: CGFloat(720))
         
         print("Found camera with position=\(camera.position.rawValue), type=\(camera.deviceType), resolution=\(resolution)")
         
@@ -33,14 +46,10 @@ class ViewController: UIViewController {
             return print("Not found any microphones")
         }
         
-//        guard let sender: OpaquePointer = sender_create("10.110.3.43", 4444, 5) else {
-//            return print("Couldn't create sender")
-//        }
-        
-        guard let sender: OpaquePointer = sender_create("videos-p2p-storage.dev.avalab.io", 4444, 5) else {
+        guard let sender: OpaquePointer = sender_create("10.110.3.43", 4444) else {
             return print("Couldn't create sender")
         }
-        
+
 //        guard let sender: OpaquePointer = sender_create("192.168.88.253", 4444, 5) else {
 //            return print("Couldn't create sender")
 //        }
@@ -59,10 +68,9 @@ class ViewController: UIViewController {
         audioContext.timebase.den = 1000
         audioContext.timebase.num = 1
         
-        let isConnected = sender_connect(sender,"72f71686-0381-4667-aa28-8ec749b58105",
+        let isConnected = sender_connect(sender,"a017f497-cebe-492a-8c0b-60e89a61901c",
                                          videoContext,
-                                         audioContext,
-                                         3)
+                                         audioContext)
         
         guard isConnected > 0 else {
             sender_destroy(sender)
@@ -89,4 +97,3 @@ class ViewController: UIViewController {
     }
 
 }
-

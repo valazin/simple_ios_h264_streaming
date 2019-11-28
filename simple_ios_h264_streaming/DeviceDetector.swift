@@ -13,7 +13,7 @@ class DeviceDetector {
     static func DetectCamera() -> AVCaptureDevice? {
         // TODO: ask permissions
         
-        let _discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInTrueDepthCamera, .builtInDualCamera],
+        let _discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera],
                                                                  mediaType: .video,
                                                                  position: .unspecified)
             

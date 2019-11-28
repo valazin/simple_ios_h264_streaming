@@ -12,7 +12,6 @@
 		BA79E45C236835ED008170C7 /* senderwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA79E456236835ED008170C7 /* senderwrapper.cpp */; };
 		BA79E45D236835ED008170C7 /* udpclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA79E459236835ED008170C7 /* udpclient.cpp */; };
 		BAFBBA02235776FB00BDC8DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA01235776FB00BDC8DC /* AppDelegate.swift */; };
-		BAFBBA04235776FB00BDC8DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA03235776FB00BDC8DC /* SceneDelegate.swift */; };
 		BAFBBA06235776FB00BDC8DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFBBA05235776FB00BDC8DC /* ViewController.swift */; };
 		BAFBBA09235776FB00BDC8DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAFBBA07235776FB00BDC8DC /* Main.storyboard */; };
 		BAFBBA0B235776FD00BDC8DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAFBBA0A235776FD00BDC8DC /* Assets.xcassets */; };
@@ -36,7 +35,6 @@
 		BA79E45A236835ED008170C7 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		BAFBB9FE235776FB00BDC8DC /* simple_ios_h264_streaming.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = simple_ios_h264_streaming.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAFBBA01235776FB00BDC8DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BAFBBA03235776FB00BDC8DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BAFBBA05235776FB00BDC8DC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BAFBBA08235776FB00BDC8DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BAFBBA0A235776FD00BDC8DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -115,7 +113,6 @@
 				BAFBBA1923577ECF00BDC8DC /* VideoFrameHandler.swift */,
 				BA721E41235886CD0034723B /* AudioFrameHandler.swift */,
 				BAFBBA01235776FB00BDC8DC /* AppDelegate.swift */,
-				BAFBBA03235776FB00BDC8DC /* SceneDelegate.swift */,
 				BAFBBA05235776FB00BDC8DC /* ViewController.swift */,
 				BA726A32235781960089272A /* simple_ios_h264_streaming-Bridging-Header.h */,
 				BAFBBA07235776FB00BDC8DC /* Main.storyboard */,
@@ -206,7 +203,6 @@
 				BAFBBA1C23577ECF00BDC8DC /* VideoFrameHandler.swift in Sources */,
 				BA721E42235886CD0034723B /* AudioFrameHandler.swift in Sources */,
 				BAFBBA1A23577ECF00BDC8DC /* DeviceDetector.swift in Sources */,
-				BAFBBA04235776FB00BDC8DC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +351,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VP8798V8PU;
 				INFOPLIST_FILE = simple_ios_h264_streaming/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -378,6 +375,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VP8798V8PU;
 				INFOPLIST_FILE = simple_ios_h264_streaming/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

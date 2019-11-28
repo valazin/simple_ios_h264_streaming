@@ -24,6 +24,27 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
                                    outputCallback: _compressionCallback,
                                    refcon: UnsafeMutableRawPointer(sender),
                                    compressionSessionOut: &_comperessionSession)
+        
+        VTCompressionSessionCreate(allocator: nil,
+                                   width: Int32(640),
+                                   height: Int32(480),
+                                   codecType: kCMVideoCodecType_H264,
+                                   encoderSpecification: nil,
+                                   imageBufferAttributes: nil,
+                                   compressedDataAllocator: nil,
+                                   outputCallback: _compressionCallback,
+                                   refcon: UnsafeMutableRawPointer(sender),
+                                   compressionSessionOut: &_comperessionSession2)
+        
+        _currentComperssionSession = _comperessionSession
+    }
+    
+    func changeEncoder(id: Int) {
+        if (id == 0) {
+            _currentComperssionSession = _comperessionSession;
+        } else {
+            _currentComperssionSession = _comperessionSession2;
+        }
     }
     
     func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
@@ -31,19 +52,19 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let session = _comperessionSession else {
+        guard let session = _currentComperssionSession else {
             return print("Session was not created")
         }
         
-        guard let imageBuffer = sampleBuffer.imageBuffer else {
+        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return print("Couldn't get image buffer")
         }
         
         var flags: VTEncodeInfoFlags = []
         VTCompressionSessionEncodeFrame(session,
                                         imageBuffer: imageBuffer,
-                                        presentationTimeStamp: sampleBuffer.presentationTimeStamp,
-                                        duration: sampleBuffer.duration,
+                                        presentationTimeStamp: CMSampleBufferGetPresentationTimeStamp(sampleBuffer),
+                                        duration: CMSampleBufferGetDuration(sampleBuffer),
                                         frameProperties: nil,
                                         sourceFrameRefcon: nil,
                                         infoFlagsOut: &flags)
@@ -61,7 +82,7 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         guard let sampleBuffer = sampleBuffer else {
             return print("sampleBuffer is null")
         }
-        guard let blockBuffer = sampleBuffer.dataBuffer else {
+        guard let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) else {
             return print("dataBuffer is null")
         }
         
@@ -100,14 +121,14 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         rewriteAvvcToAnnexB(data: outputData! + outputDataOffset, length: outputDataLength - outputDataOffset)
         
         var frameInfo = FrameContext()
-        frameInfo.dts = Int(Float(sampleBuffer.decodeTimeStamp.value * 1000) / Float(sampleBuffer.decodeTimeStamp.timescale))
-        frameInfo.pts = Int(Float(sampleBuffer.presentationTimeStamp.value * 1000) / Float(sampleBuffer.presentationTimeStamp.timescale))
+        frameInfo.dts = Int64(Float(CMSampleBufferGetDecodeTimeStamp(sampleBuffer).value * 1000) / Float(CMSampleBufferGetDecodeTimeStamp(sampleBuffer).timescale))
+        frameInfo.pts = Int64(Float(CMSampleBufferGetPresentationTimeStamp(sampleBuffer).value * 1000) / Float(CMSampleBufferGetPresentationTimeStamp(sampleBuffer).timescale))
         frameInfo.isKeyFrame = isKeyFrame > 0 ? 1 : 0
-        frameInfo.isVideoFrame = 1;
+        frameInfo.isVideoFrame = 1
         
         sender_send_frame(OpaquePointer(outputCallbackRefCon),
                           outputData,
-                          outputDataLength,
+                          Int64(outputDataLength),
                           frameInfo)
     }
     
@@ -214,5 +235,7 @@ class VideoFrameHandler : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         }
     }
     
+    private var _currentComperssionSession: VTCompressionSession?
     private var _comperessionSession: VTCompressionSession?
+    private var _comperessionSession2: VTCompressionSession?
 }

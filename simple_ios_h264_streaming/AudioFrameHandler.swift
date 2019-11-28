@@ -20,7 +20,7 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         if _converter == nil {
-            guard let inFormatDescription = sampleBuffer.formatDescription else {
+            guard let inFormatDescription = CMSampleBufferGetFormatDescription(sampleBuffer) else {
                 return
             }
             guard var inBasicStreamDescription = CMAudioFormatDescriptionGetStreamBasicDescription(inFormatDescription)?.pointee else {
@@ -87,7 +87,7 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
         
         // Send
         var frameInfo = FrameContext()
-        frameInfo.pts = Int(Float(sampleBuffer.presentationTimeStamp.value * 1000) / Float(sampleBuffer.presentationTimeStamp.timescale))
+        frameInfo.pts = Int64(Float(CMSampleBufferGetPresentationTimeStamp(sampleBuffer).value * 1000) / Float(CMSampleBufferGetPresentationTimeStamp(sampleBuffer).timescale))
         frameInfo.dts = frameInfo.pts
         frameInfo.isKeyFrame = 0
         frameInfo.isVideoFrame = 0
@@ -99,7 +99,7 @@ class AudioFrameHandler : NSObject, AVCaptureAudioDataOutputSampleBufferDelegate
             
             sender_send_frame(_sender,
                               UnsafeMutablePointer<Int8>(OpaquePointer(aacData)),
-                              Int(aacDataSize),
+                              Int64(aacDataSize),
                               frameInfo)
         }
     }
